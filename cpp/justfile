@@ -1,0 +1,25 @@
+# Get the vcpkg toolchain path from the environment variable set in flake.nix
+vcpkg_toolchain := env_var("VCPKG_ROOT") + "/scripts/buildsystems/vcpkg.cmake"
+
+# Default task, build and run.
+run: build
+    ./build/my_app
+
+setup:
+    cmake -B build -G Ninja \
+    -DCMAKE_TOOLCHAIN_FILE={{vcpkg_toolchain}} \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+build:
+    cmake --build build
+
+test: build
+    ctest --test-dir build --output-on-failure
+
+clean: clean-all
+clean-all: clean-build clean-vcpkg
+
+clean-build:
+    rm -rf build/
+clean-vcpkg:
+    rm -rf vcpkg_installed/

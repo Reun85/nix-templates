@@ -1,0 +1,20 @@
+
+log_level := "info"
+
+# Delete build artifacts
+clean:
+    cargo clean
+
+# Run in development mode with trace logging
+# Usage: just dev [ARGS]
+dev *args:
+    RUST_LOG="carver_toy=trace,carver=trace,basalt=trace,warn" \
+    CARVER_EXAMPLE="test" \
+    cargo run {{args}}
+
+# Run in release mode with configurable logging
+# Usage: just run [LEVEL]
+# Example: just run debug
+run level=log_level:
+    RUST_LOG="carver_toy={{level}},carver=warn,error" \
+    cargo run --release

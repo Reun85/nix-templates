@@ -1,0 +1,124 @@
+[package]
+name = "my-project"
+version = "0.1.0"
+edition = "2024"
+
+# ------------------------------------------------------------------------------
+# Lints: High-Quality & Production Ready
+# ------------------------------------------------------------------------------
+
+[lints.rust]
+missing_docs = "warn"
+unexpected_cfgs = { level = "warn", check-cfg = [
+  'cfg(build_type, values("debug","release","dist"))',
+  'cfg(debug)',
+] }
+
+[lints.clippy]
+# The "No-Nonsense" Stack
+correctness = { level = "deny", priority = -3 }
+complexity = { level = "deny", priority = -3 }
+perf = { level = "deny", priority = -3 }
+style = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+
+# Allow-list for ergonomics
+option_if_let_else = "allow"
+module_name_repetitions = "allow"
+
+# ------------------------------------------------------------------------------
+# Active Dependencies (The "Every Project" Essentials)
+# ------------------------------------------------------------------------------
+
+[dependencies]
+# Error Handling
+anyhow = "1.0.95"
+thiserror = "2.0.11"
+
+# Serialization & Data
+serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.135"
+itertools = "0.14.0"
+
+# Observability
+tracing = { version = "0.1.41", features = ["attributes"] }
+tracing-subscriber = { version = "0.3.19", features = ["env-filter", "fmt"] }
+
+# ------------------------------------------------------------------------------
+# FEATURE BLOCKS: UNCOMMENT AS NEEDED
+# ------------------------------------------------------------------------------
+
+# --- [ ASYNC & NETWORKING ] ---
+# tokio = { version = "1.43.0", features = ["full"] }
+# reqwest = { version = "0.13.0", features = ["json", "rustls-tls"] }
+# axum = "0.8.1"
+# tower-http = { version = "0.6.0", features = ["cors", "trace"] }
+# url = "2.5.4"
+
+# --- [ CLI & CONFIG ] ---
+# clap = { version = "4.5.26", features = ["derive", "env"] }
+# config = "0.15.0" # Layered config (toml, env, etc)
+# dialoguer = "0.11.0" # Interactive prompts
+# indicatif = "0.17.9" # Progress bars
+# directories = "6.0.0" # Standard paths (cache, config, etc)
+
+# --- [ PERFORMANCE & MEMORY ] ---
+# rayon = "1.10.0" # Parallel Iterators
+# dashmap = "6.1.0" # High-concurrency HashMap
+# smallvec = { version = "1.13.2", features = ["serde"] }
+# parking_lot = "0.12.3" # Faster Mutex/RwLock
+# bytemuck = { version = "1.21.0", features = ["derive"] }
+
+# --- [ MATH & ALGORITHMS ] ---
+# nalgebra = { version = "0.33.0", features = ["convert-bytemuck"] }
+# rand = "0.9.0"
+# glam = { version = "0.29.0", features = ["serde"] } # Faster math for games/graphics
+# rust-cpython = "0.7.1" # If you need to embed Python
+
+# --- [ GRAPHICS & UI (Egui/WGPU Stack) ] ---
+# egui = "0.33.0"
+# eframe = { version = "0.33.0", features = ["wgpu"] }
+# wgpu = { version = "23.0.0", features = ["spirv", "naga"] }
+# winit = { version = "0.30.12", features = ["serde"] }
+# image = "0.25.5"
+
+# --- [ UTILITIES ] ---
+# chrono = { version = "0.4.39", features = ["serde"] }
+# uuid = { version = "1.12.1", features = ["v4", "serde"] }
+# regex = "1.11.1"
+# tempfile = "3.15.0"
+
+# ------------------------------------------------------------------------------
+# Build & Dev Tools
+# ------------------------------------------------------------------------------
+
+[dev-dependencies]
+# criterion = "0.5.1" # Benchmarking
+# proptest = "1.6.0" # Property-based testing
+# pretty_assertions = "1.4.1"
+
+[build-dependencies]
+# autocfg = "1.4.0"
+
+# ------------------------------------------------------------------------------
+# Profiles: Optimized for Different Targets
+# ------------------------------------------------------------------------------
+
+[profile.dev]
+opt-level = 0
+debug = true
+split-debuginfo = "unpacked" # Faster linking on macOS/Windows
+
+[profile.release]
+opt-level = 3
+lto = "thin"       # Good balance of compile time vs performance
+codegen-units = 16 # Parallel compilation
+panic = "unwind"
+
+[profile.distribution]
+inherits = "release"
+lto = "fat"          # Maximum optimization
+codegen-units = 1
+strip = "symbols"    # Minimize binary size
+panic = "abort"      # Remove landing pads for smaller/faster code

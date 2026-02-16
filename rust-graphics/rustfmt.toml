@@ -1,0 +1,23 @@
+edition = "2024"
+unstable_features = true # Required for many of the settings below
+
+# --- Import Management ---
+imports_granularity = "Crate"
+group_imports = "StdExternalCrate" # Groups: Std -> External Crates -> Your Crates
+reorder_imports = true
+
+# --- Code Style & Layout ---
+max_width = 100
+use_small_heuristics = "Max" # More aggressive packing of small blocks/functions
+newline_style = "Unix"
+
+# --- Advanced Formatting ---
+format_macro_bodies = true
+format_macro_matchers = true
+format_strings = true             # Breaks long strings into multiple lines automatically
+combine_control_expr = true       # e.g., combines 'if' and 'let' into cleaner layouts
+struct_field_align_threshold = 20 # Vertically aligns struct fields for better readability
+
+# --- Comments ---
+wrap_comments = true
+normalize_comments = true
