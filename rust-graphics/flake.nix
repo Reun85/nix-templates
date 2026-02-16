@@ -1,9 +1,9 @@
 let
-  project_name = "carver";
-  description = "A CSG based modeling tool built with Rust and Vulkan.";
+  project_name = "Rust demo project.";
+  description = "Rust project.";
   author = "reun";
   # Used for hyprctl window rules
-  window_title = "Carver Toy";
+  window_title = "My app";
 in {
   description = description;
   inputs = {
