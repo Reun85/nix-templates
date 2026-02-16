@@ -22,6 +22,12 @@
           Use `just` to quickstart your development.
         '';
       };
+
+      python = {
+        path = ./python;
+        description = "A python environment.";
+        welcomeText = "";
+      };
     };
 
   };
