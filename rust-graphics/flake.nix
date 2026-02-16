@@ -23,10 +23,8 @@ in {
             overlays = [ inputs.rust-overlay.overlays.default ];
           };
 
-          rustTools = (pkgs.rust-bin.fromRustupToolchainFile
-            ./rust-toolchain.toml).override {
-              extensions = [ "rust-analyzer" "rust-src" "clippy" "rustfmt" ];
-            };
+          rustTools =
+            (pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml);
           buildPackages = with pkgs;
             [ pkg-config clang cmake python3 cargo-watch rustTools ] ++
             # vulkan
