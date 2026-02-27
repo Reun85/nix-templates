@@ -28,6 +28,11 @@
         description = "A python environment.";
         welcomeText = "";
       };
+      latex = {
+        path = ./latex;
+        description = "A latex enviroment.";
+        welcomeText = "";
+      };
     };
 
   };
