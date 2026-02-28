@@ -11,12 +11,15 @@
       let
         pkgs = import nixpkgs { inherit system; };
         tex = pkgs.texlive.combine {
-          inherit (pkgs.texlive) scheme-medium latexmk collection-latexextra;
+          inherit (pkgs.texlive)
+            scheme-medium latexmk collection-latexextra fontawesome
+            fontawesome5;
         };
       in {
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ texstudio tex pkgs.zathura ];
+          nativeBuildInputs = with pkgs; [ texstudio tex pkgs.zathura just ];
 
+          shellHook = ''echo "editor: texstudio"'';
         };
       });
 }
