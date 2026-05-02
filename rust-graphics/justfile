@@ -6,7 +6,6 @@ log_level := "info"
 # Usage: just dev [ARGS]
 dev *args:
     RUST_LOG="carver_toy=trace,carver=trace,basalt=trace,warn" \
-    CARVER_EXAMPLE="test" \
     cargo run {{args}}
 
 # Delete build artifacts
